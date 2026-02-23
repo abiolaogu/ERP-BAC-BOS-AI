@@ -1,0 +1,955 @@
+{
+  "generated_at": "2026-02-22",
+  "generated_by": "Codex (GPT-5)",
+  "project": {
+    "name": "BAC-BOS-AI / NEXUS Business Operating System",
+    "root_path": "/Users/AbiolaOgunsakin1/BOS/BAC-BOS-AI",
+    "git": {
+      "branch": "codex/frontend-stack-standardization-20260218",
+      "last_commit": {
+        "hash": "c2aea0a35277a591fce84860f4ac4b35deef3e3f",
+        "date": "2026-02-20 08:50:11 +0100",
+        "subject": "fix(frontend): unblock frontend-stack and AIDD checks"
+      },
+      "remote_origin": "https://github.com/abiolaogu/BAC-BOS-AI"
+    }
+  },
+  "repository_stats": {
+    "tracked_files": 940,
+    "top_level_tracked_file_counts": [
+      {
+        "path": "nexus-office-suite",
+        "tracked_files": 549
+      },
+      {
+        "path": "services",
+        "tracked_files": 105
+      },
+      {
+        "path": "bac-platform",
+        "tracked_files": 89
+      },
+      {
+        "path": "docs",
+        "tracked_files": 43
+      },
+      {
+        "path": "archive",
+        "tracked_files": 21
+      },
+      {
+        "path": "mobile",
+        "tracked_files": 21
+      },
+      {
+        "path": "web",
+        "tracked_files": 17
+      },
+      {
+        "path": "android",
+        "tracked_files": 10
+      },
+      {
+        "path": "infra",
+        "tracked_files": 9
+      },
+      {
+        "path": "ios",
+        "tracked_files": 7
+      },
+      {
+        "path": "flutter",
+        "tracked_files": 6
+      },
+      {
+        "path": "scripts",
+        "tracked_files": 5
+      },
+      {
+        "path": "apps",
+        "tracked_files": 4
+      },
+      {
+        "path": "nexus-engine",
+        "tracked_files": 3
+      },
+      {
+        "path": "tests",
+        "tracked_files": 3
+      },
+      {
+        "path": "examples",
+        "tracked_files": 2
+      },
+      {
+        "path": "kubernetes",
+        "tracked_files": 2
+      }
+    ],
+    "language_file_counts": {
+      "ts": 219,
+      "tsx": 102,
+      "go": 100,
+      "py": 7,
+      "js": 30,
+      "dart": 21,
+      "sql": 16,
+      "graphql": 5,
+      "tf": 11,
+      "md": 181,
+      "json": 51,
+      "yaml": 44,
+      "yml": 14,
+      "sh": 9
+    },
+    "approximate_loc": {
+      "go": 22010,
+      "ts": 39420,
+      "tsx": 11980,
+      "py": 978,
+      "dart": 978,
+      "sql": 3987,
+      "sh": 827,
+      "tf": 783,
+      "md": 73033
+    }
+  },
+  "runtime": {
+    "compose_root": {
+      "file": "docker-compose.yml",
+      "services": [
+        "postgres",
+        "redis",
+        "redpanda",
+        "minio",
+        "nexus-engine",
+        "crm-service",
+        "finance-service",
+        "ai-service",
+        "documents-service",
+        "hr-service",
+        "inventory-service",
+        "projects-service",
+        "marketing-service",
+        "support-service",
+        "google-workspace-integration",
+        "odoo-integration",
+        "zoho-integration",
+        "prometheus",
+        "grafana",
+        "web-console"
+      ],
+      "build_context_validation": {
+        "existing_contexts": [
+          "nexus-engine",
+          "services/crm",
+          "services/finance",
+          "services/ai",
+          "services/documents",
+          "services/hr",
+          "services/inventory",
+          "services/projects",
+          "services/marketing",
+          "services/support",
+          "bac-platform/services/integrations/google-workspace",
+          "bac-platform/services/integrations/odoo",
+          "bac-platform/services/integrations/zoho"
+        ],
+        "missing_contexts": [
+          "web-console"
+        ]
+      },
+      "known_missing_mount_paths": [
+        "ops/prometheus/prometheus.yml",
+        "ops/grafana/datasources"
+      ]
+    },
+    "compose_complete": {
+      "file": "docker-compose.complete.yml",
+      "services_count": 50,
+      "services": [
+        "postgres",
+        "redis",
+        "mongodb",
+        "minio",
+        "kafka",
+        "zookeeper",
+        "elasticsearch",
+        "api-gateway",
+        "auth-service",
+        "idaas-service",
+        "notification-service",
+        "collaboration-service",
+        "writer-service",
+        "writer-frontend",
+        "sheets-service",
+        "sheets-frontend",
+        "slides-service",
+        "slides-frontend",
+        "drive-service",
+        "drive-frontend",
+        "meet-service",
+        "meet-frontend",
+        "hub-frontend",
+        "vas-sms-service",
+        "vas-whatsapp-service",
+        "vas-telegram-service",
+        "vas-messenger-service",
+        "voice-switch-service",
+        "email-service",
+        "contact-center-service",
+        "contact-center-frontend",
+        "crm-service",
+        "ecommerce-service",
+        "ecommerce-frontend",
+        "devops-service",
+        "devops-frontend",
+        "api-manager-service",
+        "dbaas-service",
+        "dbaas-frontend",
+        "webhosting-service",
+        "cdn-service",
+        "ipaas-service",
+        "ipaas-frontend",
+        "bpa-service",
+        "bpa-frontend",
+        "designer-service",
+        "designer-frontend",
+        "ai-agents-service",
+        "promptql-service",
+        "mmp-service",
+        "prometheus",
+        "grafana",
+        "loki",
+        "jaeger",
+        "aiops-service"
+      ],
+      "missing_build_contexts": [
+        "services/vas/sms",
+        "services/vas/whatsapp",
+        "services/vas/telegram",
+        "services/vas/messenger",
+        "services/voice-switch",
+        "services/email",
+        "services/contact-center",
+        "services/contact-center/frontend",
+        "services/ecommerce",
+        "services/ecommerce/frontend",
+        "services/devops",
+        "services/devops/frontend",
+        "services/api-manager",
+        "services/dbaas",
+        "services/dbaas/frontend",
+        "services/webhosting",
+        "services/cdn",
+        "services/ipaas",
+        "services/ipaas/frontend",
+        "services/bpa",
+        "services/bpa/frontend",
+        "services/designer",
+        "services/designer/frontend",
+        "services/ai-agents",
+        "services/promptql",
+        "services/mmp"
+      ]
+    },
+    "compose_nexus_office_suite": {
+      "file": "nexus-office-suite/docker-compose.yml",
+      "key_services": [
+        "api-gateway",
+        "auth-service",
+        "notification-service",
+        "collaboration-service",
+        "writer-service",
+        "sheets-service",
+        "slides-service",
+        "mail-service",
+        "calendar-service",
+        "drive-service",
+        "meet-service"
+      ],
+      "compose_only_services_missing_source_dirs": [
+        "forms-service",
+        "tasks-service",
+        "notes-service"
+      ],
+      "known_missing_paths": [
+        "nexus-office-suite/database/init",
+        "nexus-office-suite/monitoring/prometheus.yml",
+        "nexus-office-suite/monitoring/grafana/dashboards",
+        "nexus-office-suite/monitoring/grafana/datasources.yml"
+      ]
+    }
+  },
+  "modules": {
+    "go_modules_count": 21,
+    "go_modules": [
+      {
+        "path": "services/documents/go.mod",
+        "module": "nexus-documents-service"
+      },
+      {
+        "path": "services/finance/go.mod",
+        "module": "nexus-finance-service"
+      },
+      {
+        "path": "services/crm/go.mod",
+        "module": "github.com/nexusbos/crm"
+      },
+      {
+        "path": "nexus-engine/go.mod",
+        "module": "github.com/nexusbos/nexus-engine"
+      },
+      {
+        "path": "services/hr/go.mod",
+        "module": "nexus-hr-service"
+      },
+      {
+        "path": "services/marketing/go.mod",
+        "module": "nexus-marketing-service"
+      },
+      {
+        "path": "services/projects/go.mod",
+        "module": "nexus-projects-service"
+      },
+      {
+        "path": "services/inventory/go.mod",
+        "module": "nexus-inventory-service"
+      },
+      {
+        "path": "services/support/go.mod",
+        "module": "nexus-support-service"
+      },
+      {
+        "path": "bac-platform/services/control-plane/go.mod",
+        "module": "github.com/abiolaogu/BAC-BOS-AI/services/control-plane"
+      },
+      {
+        "path": "bac-platform/services/integrations/google-workspace/go.mod",
+        "module": "github.com/bac-platform/integrations/google-workspace"
+      },
+      {
+        "path": "services/vas/go.mod",
+        "module": "github.com/nexus-platform/vas"
+      },
+      {
+        "path": "bac-platform/services/integrations/odoo/go.mod",
+        "module": "github.com/bac-platform/integrations/odoo"
+      },
+      {
+        "path": "apps/mail/backend/go.mod",
+        "module": "github.com/bac-platform/apps/mail"
+      },
+      {
+        "path": "bac-platform/services/integrations/zoho/go.mod",
+        "module": "github.com/bac-platform/integrations/zoho"
+      },
+      {
+        "path": "nexus-office-suite/backend/sheets-service/go.mod",
+        "module": "github.com/nexus/sheets-service"
+      },
+      {
+        "path": "nexus-office-suite/backend/mail-service/go.mod",
+        "module": "nexus-mail-service"
+      },
+      {
+        "path": "nexus-office-suite/backend/slides-service/go.mod",
+        "module": "github.com/nexus/slides-service"
+      },
+      {
+        "path": "nexus-office-suite/backend/writer-service/go.mod",
+        "module": "github.com/nexus/writer-service"
+      },
+      {
+        "path": "nexus-office-suite/backend/calendar-service/go.mod",
+        "module": "nexus-calendar-service"
+      },
+      {
+        "path": "nexus-office-suite/backend/drive-service/go.mod",
+        "module": "github.com/nexus/drive-service"
+      }
+    ],
+    "node_packages_count": 22,
+    "node_packages": [
+      {
+        "path": "services/idaas/package.json",
+        "name": "@nexus/idaas",
+        "scripts": [
+          "dev",
+          "build",
+          "start",
+          "test",
+          "test:watch",
+          "lint",
+          "format"
+        ]
+      },
+      {
+        "path": "services/time-attendance/package.json",
+        "name": "@nexus/time-attendance",
+        "scripts": [
+          "dev",
+          "build",
+          "start",
+          "test",
+          "test:watch",
+          "lint",
+          "format"
+        ]
+      },
+      {
+        "path": "web/package.json",
+        "name": "frontend-web",
+        "scripts": [
+          "dev",
+          "build",
+          "preview",
+          "lint",
+          "typecheck",
+          "test",
+          "codegen"
+        ]
+      },
+      {
+        "path": "bac-platform/frontend/package.json",
+        "name": "bac-platform-frontend",
+        "scripts": [
+          "dev",
+          "build",
+          "start",
+          "lint",
+          "test",
+          "test:watch"
+        ]
+      },
+      {
+        "path": "nexus-office-suite/backend/api-gateway/package.json",
+        "name": "@nexus/api-gateway",
+        "scripts": [
+          "dev",
+          "build",
+          "start",
+          "lint",
+          "test"
+        ]
+      },
+      {
+        "path": "nexus-office-suite/backend/auth-service/package.json",
+        "name": "@nexus/auth-service",
+        "scripts": [
+          "dev",
+          "build",
+          "start",
+          "migrate",
+          "lint",
+          "test"
+        ]
+      },
+      {
+        "path": "nexus-office-suite/backend/chat-service/package.json",
+        "name": "nexus-chat-service",
+        "scripts": [
+          "dev",
+          "build",
+          "start",
+          "migrate",
+          "test",
+          "lint",
+          "format"
+        ]
+      },
+      {
+        "path": "nexus-office-suite/backend/collaboration-service/package.json",
+        "name": "@nexus/collaboration-service",
+        "scripts": [
+          "dev",
+          "build",
+          "start",
+          "lint",
+          "test"
+        ]
+      },
+      {
+        "path": "nexus-office-suite/backend/meet-service/package.json",
+        "name": "nexus-meet-service",
+        "scripts": [
+          "dev",
+          "build",
+          "start",
+          "test",
+          "lint",
+          "format"
+        ]
+      },
+      {
+        "path": "nexus-office-suite/backend/notification-service/package.json",
+        "name": "@nexus/notification-service",
+        "scripts": [
+          "dev",
+          "build",
+          "start",
+          "migrate",
+          "lint",
+          "test"
+        ]
+      },
+      {
+        "path": "nexus-office-suite/frontend/hub-app/package.json",
+        "name": "nexus-hub",
+        "scripts": [
+          "dev",
+          "build",
+          "start",
+          "lint",
+          "type-check"
+        ]
+      },
+      {
+        "path": "nexus-office-suite/frontend/writer-app/package.json",
+        "name": "nexus-writer-app",
+        "scripts": [
+          "dev",
+          "build",
+          "start",
+          "lint",
+          "type-check"
+        ]
+      },
+      {
+        "path": "nexus-office-suite/frontend/sheets-app/package.json",
+        "name": "nexus-sheets-app",
+        "scripts": [
+          "dev",
+          "build",
+          "start",
+          "lint",
+          "type-check"
+        ]
+      },
+      {
+        "path": "nexus-office-suite/frontend/slides-app/package.json",
+        "name": "nexus-slides",
+        "scripts": [
+          "dev",
+          "build",
+          "start",
+          "lint"
+        ]
+      },
+      {
+        "path": "nexus-office-suite/frontend/drive-app/package.json",
+        "name": "nexus-drive",
+        "scripts": [
+          "dev",
+          "build",
+          "start",
+          "lint"
+        ]
+      },
+      {
+        "path": "nexus-office-suite/frontend/meet-app/package.json",
+        "name": "nexus-meet",
+        "scripts": [
+          "dev",
+          "build",
+          "start",
+          "lint",
+          "type-check"
+        ]
+      },
+      {
+        "path": "nexus-office-suite/frontend/chat-app/package.json",
+        "name": "nexus-chat-app",
+        "scripts": [
+          "dev",
+          "build",
+          "start",
+          "lint",
+          "type-check"
+        ]
+      },
+      {
+        "path": "nexus-office-suite/frontend/calendar-app/package.json",
+        "name": "nexus-calendar-app",
+        "scripts": [
+          "dev",
+          "build",
+          "start",
+          "lint",
+          "type-check"
+        ]
+      },
+      {
+        "path": "nexus-office-suite/frontend/mail-app/package.json",
+        "name": "nexus-mail-app",
+        "scripts": [
+          "dev",
+          "build",
+          "start",
+          "lint",
+          "type-check"
+        ]
+      },
+      {
+        "path": "nexus-office-suite/tests/integration/package.json",
+        "name": "nexus-integration-tests",
+        "scripts": [
+          "test",
+          "test:watch",
+          "test:coverage",
+          "test:verbose",
+          "test:api",
+          "test:websocket",
+          "test:database",
+          "test:ci"
+        ]
+      },
+      {
+        "path": "nexus-office-suite/tests/e2e/package.json",
+        "name": "nexus-e2e-tests",
+        "scripts": [
+          "test",
+          "test:headed",
+          "test:debug",
+          "test:ui",
+          "test:chrome",
+          "test:firefox",
+          "test:webkit",
+          "test:mobile",
+          "test:smoke",
+          "test:auth",
+          "test:writer",
+          "test:sheets",
+          "test:slides",
+          "test:drive",
+          "test:meet",
+          "test:hub",
+          "test:collaboration",
+          "report",
+          "install:browsers"
+        ]
+      },
+      {
+        "path": "nexus-office-suite/tests/performance/package.json",
+        "name": "nexus-performance-tests",
+        "scripts": [
+          "test",
+          "test:auth",
+          "test:api",
+          "test:websocket",
+          "test:upload",
+          "test:all",
+          "report"
+        ]
+      }
+    ],
+    "python_requirements": [
+      {
+        "path": "services/ai/requirements.txt",
+        "packages": [
+          "fastapi==0.109.0",
+          "uvicorn==0.27.0",
+          "pydantic==2.6.0",
+          "pyyaml==6.0.1",
+          "openai==1.10.0"
+        ]
+      },
+      {
+        "path": "nexus-office-suite/monitoring/aiops/requirements.txt",
+        "packages": [
+          "numpy==1.24.3",
+          "pandas==2.0.3",
+          "scikit-learn==1.3.0",
+          "requests==2.31.0",
+          "scipy==1.11.1",
+          "matplotlib==3.7.2",
+          "seaborn==0.12.2",
+          "python-json-logger==2.0.7",
+          "python-dotenv==1.0.0",
+          "prometheus-client==0.17.1"
+        ]
+      }
+    ]
+  },
+  "service_catalog": {
+    "core_activation_layer": [
+      {
+        "service": "nexus-engine",
+        "path": "nexus-engine/main.go",
+        "language": "Go (Gin)",
+        "port": 8080,
+        "status": "implemented"
+      }
+    ],
+    "core_business_services": [
+      {
+        "service": "crm-service",
+        "path": "services/crm/main.go",
+        "language": "Go (Gin + Postgres)",
+        "port": 8081,
+        "status": "implemented"
+      },
+      {
+        "service": "finance-service",
+        "path": "services/finance/cmd/main.go",
+        "language": "Go",
+        "port": 8082,
+        "status": "implemented"
+      },
+      {
+        "service": "ai-service",
+        "path": "services/ai/main.py",
+        "language": "Python (FastAPI)",
+        "port": 8086,
+        "status": "implemented"
+      },
+      {
+        "service": "idaas-service",
+        "path": "services/idaas/src/index.ts",
+        "language": "TypeScript (Express)",
+        "port": 8100,
+        "status": "implemented"
+      },
+      {
+        "service": "time-attendance",
+        "path": "services/time-attendance/src/index.ts",
+        "language": "TypeScript (Express)",
+        "port": 3006,
+        "status": "implemented"
+      },
+      {
+        "service": "documents-service",
+        "path": "services/documents/cmd/main.go",
+        "language": "Go",
+        "port": 8083,
+        "status": "partial_scaffold"
+      },
+      {
+        "service": "hr-service",
+        "path": "services/hr/cmd/main.go",
+        "language": "Go",
+        "port": 8084,
+        "status": "partial_scaffold"
+      },
+      {
+        "service": "inventory-service",
+        "path": "services/inventory/cmd/main.go",
+        "language": "Go",
+        "port": 8085,
+        "status": "partial_scaffold"
+      },
+      {
+        "service": "projects-service",
+        "path": "services/projects/cmd/main.go",
+        "language": "Go",
+        "port": 8087,
+        "status": "partial_scaffold"
+      },
+      {
+        "service": "marketing-service",
+        "path": "services/marketing/cmd/main.go",
+        "language": "Go",
+        "port": 8088,
+        "status": "partial_scaffold"
+      },
+      {
+        "service": "support-service",
+        "path": "services/support/cmd/main.go",
+        "language": "Go",
+        "port": 8089,
+        "status": "partial_scaffold"
+      },
+      {
+        "service": "vas-service",
+        "path": "services/vas/go.mod",
+        "language": "Go",
+        "status": "partial_scaffold"
+      }
+    ],
+    "nexus_office_suite_backend": [
+      {
+        "service": "api-gateway",
+        "path": "nexus-office-suite/backend/api-gateway/src/index.ts",
+        "port": 8000,
+        "status": "implemented"
+      },
+      {
+        "service": "auth-service",
+        "path": "nexus-office-suite/backend/auth-service/src/index.ts",
+        "port": 3001,
+        "status": "implemented"
+      },
+      {
+        "service": "notification-service",
+        "path": "nexus-office-suite/backend/notification-service/src/index.ts",
+        "port": 3007,
+        "status": "implemented"
+      },
+      {
+        "service": "collaboration-service",
+        "path": "nexus-office-suite/backend/collaboration-service/src/index.ts",
+        "port": 3008,
+        "status": "implemented"
+      },
+      {
+        "service": "writer-service",
+        "path": "nexus-office-suite/backend/writer-service/cmd/main.go",
+        "port": 8091,
+        "status": "implemented"
+      },
+      {
+        "service": "sheets-service",
+        "path": "nexus-office-suite/backend/sheets-service/cmd/main.go",
+        "port": 8092,
+        "status": "implemented"
+      },
+      {
+        "service": "slides-service",
+        "path": "nexus-office-suite/backend/slides-service/cmd/main.go",
+        "port": 8093,
+        "status": "implemented"
+      },
+      {
+        "service": "mail-service",
+        "path": "nexus-office-suite/backend/mail-service/cmd/main.go",
+        "port": 8094,
+        "status": "implemented"
+      },
+      {
+        "service": "calendar-service",
+        "path": "nexus-office-suite/backend/calendar-service/main.go",
+        "port": 8095,
+        "status": "implemented"
+      },
+      {
+        "service": "drive-service",
+        "path": "nexus-office-suite/backend/drive-service/cmd/main.go",
+        "port": 8096,
+        "status": "implemented"
+      },
+      {
+        "service": "meet-service",
+        "path": "nexus-office-suite/backend/meet-service/src/index.ts",
+        "port": 8098,
+        "status": "implemented"
+      },
+      {
+        "service": "chat-service",
+        "path": "nexus-office-suite/backend/chat-service/src/server.ts",
+        "status": "implemented"
+      },
+      {
+        "service": "forms-service",
+        "path": "nexus-office-suite/backend/forms-service",
+        "status": "compose_only_missing_source"
+      },
+      {
+        "service": "tasks-service",
+        "path": "nexus-office-suite/backend/tasks-service",
+        "status": "compose_only_missing_source"
+      },
+      {
+        "service": "notes-service",
+        "path": "nexus-office-suite/backend/notes-service",
+        "status": "compose_only_missing_source"
+      }
+    ],
+    "frontend_apps": [
+      {
+        "app": "web",
+        "path": "web",
+        "framework": "Vite + React + Refine + AntD",
+        "status": "implemented_scaffold"
+      },
+      {
+        "app": "bac-platform-frontend",
+        "path": "bac-platform/frontend",
+        "framework": "Next.js + MUI",
+        "status": "implemented_scaffold"
+      },
+      {
+        "app_group": "nexus-office-suite/frontend",
+        "apps": [
+          "writer-app",
+          "sheets-app",
+          "slides-app",
+          "drive-app",
+          "mail-app",
+          "calendar-app",
+          "chat-app",
+          "meet-app",
+          "hub-app"
+        ],
+        "framework": "Next.js + TypeScript",
+        "status": "implemented"
+      }
+    ],
+    "mobile_clients": [
+      {
+        "path": "android",
+        "stack": "Kotlin + Compose + Apollo",
+        "status": "scaffold"
+      },
+      {
+        "path": "ios",
+        "stack": "SwiftUI + Apollo + TCA",
+        "status": "scaffold"
+      },
+      {
+        "path": "flutter",
+        "stack": "Flutter + Riverpod + Ferry",
+        "status": "scaffold"
+      }
+    ]
+  },
+  "testing_and_quality": {
+    "root_test_scripts": [
+      "tests/test_payments.sh",
+      "tests/test_ai_agents.sh",
+      "tests/test_enterprise_services.sh"
+    ],
+    "cross_stack_scripts": [
+      "scripts/test-all.sh",
+      "scripts/codegen-all.sh",
+      "scripts/schema-pull.sh"
+    ],
+    "nexus_office_suite_tests": {
+      "e2e": "nexus-office-suite/tests/e2e",
+      "integration": "nexus-office-suite/tests/integration",
+      "performance": "nexus-office-suite/tests/performance"
+    },
+    "known_test_mismatches": [
+      "tests/test_ai_agents.sh references agent IDs that are not present in services/ai/config/agents.json",
+      "nexus-office-suite/tests/performance/README.md references websocket-concurrent.js and file-upload.js that are missing",
+      "nexus-office-suite/.github/workflows/test.yml references nexus-office-suite/docker-compose.test.yml which is missing"
+    ]
+  },
+  "ci_cd": {
+    "root_workflows": [
+      ".github/workflows/ci.yml",
+      ".github/workflows/frontend-pipeline.yml",
+      ".github/workflows/frontend-regenerate.yml",
+      ".github/workflows/security.yml"
+    ],
+    "nexus_office_suite_workflows": [
+      "nexus-office-suite/.github/workflows/ci.yml",
+      "nexus-office-suite/.github/workflows/deploy-staging.yml",
+      "nexus-office-suite/.github/workflows/deploy-production.yml",
+      "nexus-office-suite/.github/workflows/release.yml",
+      "nexus-office-suite/.github/workflows/security.yml",
+      "nexus-office-suite/.github/workflows/test.yml"
+    ],
+    "known_workflow_path_mismatches": [
+      "nexus-office-suite/.github/workflows/ci.yml expects services/<name> paths, but repository uses backend/*-service and frontend/*-app",
+      "nexus-office-suite/.github/workflows/test.yml references services/auth path, but actual path is backend/auth-service"
+    ]
+  },
+  "known_gaps_and_risks": [
+    "Root compose references web-console service context that does not exist",
+    "Root compose references Prometheus/Grafana provisioning files that are missing under ops/",
+    "Complete compose defines many services without source directories",
+    "Nexus office suite compose references forms/tasks/notes services that are not in backend/",
+    "Monitoring files referenced by nexus-office-suite compose are missing",
+    "License information is inconsistent across README files and no LICENSE file is present"
+  ]
+}

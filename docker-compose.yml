@@ -1,0 +1,340 @@
+version: '3.9'
+
+services:
+  # Infrastructure
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-nexus}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  redpanda:
+    image: redpandadata/redpanda:latest
+    ports:
+      - "9092:9092"
+      - "9644:9644"
+    command:
+      - redpanda
+      - start
+      - --kafka-addr internal://0.0.0.0:9092,external://0.0.0.0:19092
+      - --advertise-kafka-addr internal://redpanda:9092,external://localhost:9092
+      - --pandaproxy-addr internal://0.0.0.0:8082,external://0.0.0.0:18082
+      - --advertise-pandaproxy-addr internal://redpanda:8082,external://localhost:18082
+      - --schema-registry-addr internal://0.0.0.0:8081,external://0.0.0.0:18081
+      - --rpc-addr redpanda:33145
+      - --advertise-rpc-addr redpanda:33145
+      - --mode dev-container
+    volumes:
+      - redpanda_data:/var/lib/redpanda/data
+    healthcheck:
+      test: [ "CMD-SHELL", "rpk cluster health | grep -q 'Healthy: true'" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  minio:
+    image: minio/minio:latest
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio_data:/data
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9000/minio/health/live" ]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
+  # NEXUS Core Services
+  nexus-engine:
+    build:
+      context: ./nexus-engine
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - DATABASE_URL=postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-nexus}?sslmode=disable
+      - REDIS_URL=redis://redis:6379
+      - KAFKA_BROKERS=redpanda:9092
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      redpanda:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "wget", "--spider", "-q", "http://localhost:8080/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  crm-service:
+    build:
+      context: ./services/crm
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    environment:
+      - PORT=8081
+      - DATABASE_URL=postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-nexus}?sslmode=disable
+      - KAFKA_BROKERS=redpanda:9092
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redpanda:
+        condition: service_healthy
+
+  finance-service:
+    build:
+      context: ./services/finance
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8082"
+    environment:
+      - PORT=8082
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - PAYSTACK_SECRET_KEY=${PAYSTACK_SECRET_KEY}
+    healthcheck:
+      test: [ "CMD", "wget", "--spider", "-q", "http://localhost:8082/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  ai-service:
+    build:
+      context: ./services/ai
+      dockerfile: Dockerfile
+    ports:
+      - "8086:8086"
+    environment:
+      - PORT=8086
+      - AGENTS_CONFIG_PATH=config/agents.json
+    volumes:
+      - ./services/ai:/app
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8086/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  documents-service:
+    build:
+      context: ./services/documents
+      dockerfile: Dockerfile
+    ports:
+      - "8083:8083"
+    environment:
+      - PORT=8083
+    healthcheck:
+      test: [ "CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8083/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  hr-service:
+    build:
+      context: ./services/hr
+      dockerfile: Dockerfile
+    ports:
+      - "8084:8084"
+    environment:
+      - PORT=8084
+    healthcheck:
+      test: [ "CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8084/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  inventory-service:
+    build:
+      context: ./services/inventory
+      dockerfile: Dockerfile
+    ports:
+      - "8085:8085"
+    environment:
+      - PORT=8085
+    healthcheck:
+      test: [ "CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8085/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  projects-service:
+    build:
+      context: ./services/projects
+      dockerfile: Dockerfile
+    ports:
+      - "8087:8087"
+    environment:
+      - PORT=8087
+    healthcheck:
+      test: [ "CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8087/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  marketing-service:
+    build:
+      context: ./services/marketing
+      dockerfile: Dockerfile
+    ports:
+      - "8088:8088"
+    environment:
+      - PORT=8088
+    healthcheck:
+      test: [ "CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8088/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  support-service:
+    build:
+      context: ./services/support
+      dockerfile: Dockerfile
+    ports:
+      - "8089:8089"
+    environment:
+      - PORT=8089
+    healthcheck:
+      test: [ "CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8089/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 53
+
+  # Integration Services
+  google-workspace-integration:
+    build:
+      context: ./bac-platform/services/integrations/google-workspace
+      dockerfile: Dockerfile
+    ports:
+      - "8090:8080"  # Changed from 8083 to avoid conflict with documents-service
+    environment:
+      - PORT=8080
+      - GOOGLE_CREDENTIALS_JSON=${GOOGLE_CREDENTIALS_JSON}
+    healthcheck:
+      test: [ "CMD", "wget", "--spider", "-q", "http://localhost:8080/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  odoo-integration:
+    build:
+      context: ./bac-platform/services/integrations/odoo
+      dockerfile: Dockerfile
+    ports:
+      - "8091:8081"  # Changed from 8084 to avoid conflict with hr-service
+    environment:
+      - PORT=8081
+      - ODOO_BASE_URL=${ODOO_BASE_URL:-https://demo.odoo.com}
+      - ODOO_DATABASE=${ODOO_DATABASE:-demo}
+      - ODOO_USERNAME=${ODOO_USERNAME}
+      - ODOO_PASSWORD=${ODOO_PASSWORD}
+    healthcheck:
+      test: [ "CMD", "wget", "--spider", "-q", "http://localhost:8081/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  zoho-integration:
+    build:
+      context: ./bac-platform/services/integrations/zoho
+      dockerfile: Dockerfile
+    ports:
+      - "8092:8082"  # Changed from 8085 to avoid conflict with inventory-service
+    environment:
+      - PORT=8082
+      - ZOHO_BASE_URL=https://www.zohoapis.com
+      - ZOHO_CLIENT_ID=${ZOHO_CLIENT_ID}
+      - ZOHO_CLIENT_SECRET=${ZOHO_CLIENT_SECRET}
+      - ZOHO_REFRESH_TOKEN=${ZOHO_REFRESH_TOKEN}
+    healthcheck:
+      test: [ "CMD", "wget", "--spider", "-q", "http://localhost:8082/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Observability
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./ops/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    depends_on:
+      - nexus-engine
+      - crm-service
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USER:-admin}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-admin}
+      - GF_INSTALL_PLUGINS=grafana-piechart-panel
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./ops/grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - ./ops/grafana/datasources:/etc/grafana/provisioning/datasources
+    depends_on:
+      - prometheus
+
+  # Web Console (Dev mode)
+  web-console:
+    build:
+      context: ./web-console
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8080
+      - NEXT_PUBLIC_CRM_API_URL=http://localhost:8081
+    volumes:
+      - ./web-console:/app
+      - /app/node_modules
+    depends_on:
+      - nexus-engine
+      - crm-service
+
+volumes:
+  postgres_data:
+  redis_data:
+  redpanda_data:
+  minio_data:
+  prometheus_data:
+  grafana_data:
+
+
+networks:
+  default:
+    name: nexus-network
